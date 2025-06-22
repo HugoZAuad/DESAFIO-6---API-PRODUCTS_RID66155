@@ -8,7 +8,7 @@ export default class OrdersControllers{
   async show(request: Request, response: Response): Promise <Response>{
     const {id} = request.params
     const showOrder = container.resolve(ShowOrderService) 
-    const order = await showOrder.execute(id)
+    const order = await showOrder.execute(Number(id))
 
     return response.json(order)
   }
@@ -26,7 +26,6 @@ export default class OrdersControllers{
 
   async list(request: Request, response: Response): Promise<Response> {
     const { page = 1, limit = 10 } = request.query
-
     const listOrder = container.resolve(ListOrderService)
     const orders = await listOrder.execute({
       page: Number(page),

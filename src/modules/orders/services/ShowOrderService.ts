@@ -6,7 +6,8 @@ import { inject, injectable } from "tsyringe"
 @injectable()
 export class ShowOrderService {
   constructor(@inject('orderRepositories') private readonly orderRepositories: IOrderRepositories) { }
-  async execute(id: string): Promise<Order> {
+
+  async execute(id: number): Promise<Order> {
     const order = await this.orderRepositories.findById(Number(id))
 
     if (!order) {
