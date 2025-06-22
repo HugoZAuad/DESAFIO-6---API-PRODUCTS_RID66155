@@ -1,8 +1,8 @@
-import { injectable, inject } from 'tsyringe';
 import AppError from "@shared/errors/AppError"
 import { Customer } from "../infra/database/entities/Customers"
 import { ICreateCustomer } from "@modules/customers/domains/interfaces/ICreateCustomer"
 import { ICustomerRepositories } from "@modules/customers/domains/repositories/ICreateCustomerRepositories"
+import { injectable, inject } from 'tsyringe';
 
 @injectable()
 export default class CreateCustomerService {
