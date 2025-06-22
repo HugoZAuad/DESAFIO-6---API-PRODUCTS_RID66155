@@ -1,6 +1,6 @@
 import { Product } from '@modules/products/infra/database/entities/Product';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { Order } from './Orders'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 
 @Entity('orders_products')
 export class OrdersProducts {

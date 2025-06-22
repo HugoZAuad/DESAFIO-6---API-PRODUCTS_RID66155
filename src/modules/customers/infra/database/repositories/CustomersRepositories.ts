@@ -1,5 +1,5 @@
 import { AppDataSource } from "@shared/infra/typeorm/data-source"
-import { Customer } from "../entities/Customers"
+import { Customer } from "@modules/customers/infra/database/entities/Customers"
 import { ICustomerRepositories, Pagination } from "@modules/customers/domains/repositories/ICreateCustomerRepositories"
 import { ICreateCustomer } from "@modules/customers/domains/interfaces/ICreateCustomer"
 import { ICustomer } from "@modules/customers/domains/interfaces/ICustomer"

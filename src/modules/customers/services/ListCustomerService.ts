@@ -1,3 +1,4 @@
+import AppError from "@shared/errors/AppError"
 import { IPagination } from "@shared/interfaces/PaginationInterface"
 import { Customer } from "../infra/database/entities/Customers"
 import { ICustomerRepositories } from "@modules/customers/domains/repositories/ICreateCustomerRepositories"
@@ -5,14 +6,18 @@ import { injectable, inject } from "tsyringe"
 
 @injectable()
 export default class ListCustomerService {
-  constructor( @inject('customerRepositories') private readonly customerRepositories: ICustomerRepositories) {}
-  
+  constructor(@inject('customerRepositories') private readonly customerRepositories: ICustomerRepositories) { }
+
   async execute(page: number = 1, limit: number = 10): Promise<IPagination<Customer>> {
 
     const [data, total] = await this.customerRepositories.findAndCount({
       take: limit,
       skip: (page - 1) * limit,
     })
+
+    if (!Customer) {
+      throw new AppError("Cliente não encontrado", 404)
+    }
 
     const totalPages = Math.ceil(total / limit)
 
