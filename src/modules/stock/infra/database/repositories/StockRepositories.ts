@@ -1,13 +1,18 @@
 import { DataSource, Repository } from "typeorm";
 import { Stock } from "../entities/Stock";
-import { IStockRepository } from "@modules/stock/domains/repositories/IStockRepository";
+import { IStockRepositories } from "@modules/stock/domains/repositories/IStockRepositories";
 import { ICreateStock } from "@modules/stock/domains/interfaces/ICreateStock";
 import { IStock } from "@modules/stock/domains/interfaces/IStock";
+import { injectable, inject } from "tsyringe";
 
-export class StockRepository implements IStockRepository {
+@injectable()
+export default class StockRepositories implements IStockRepositories {
   private ormRepository: Repository<Stock>;
 
-  constructor(dataSource: DataSource) {
+  constructor(
+    @inject("dataSource")
+    dataSource: DataSource
+  ) {
     this.ormRepository = dataSource.getRepository(Stock);
   }
 
@@ -30,5 +35,10 @@ export class StockRepository implements IStockRepository {
   public async update(stock: IStock): Promise<IStock> {
     await this.ormRepository.save(stock);
     return stock;
+  }
+
+  public async findByProductId(product_id: number): Promise<IStock | null> {
+    const stock = await this.ormRepository.findOne({ where: { product: { id: product_id } }, relations: ['product'] });
+    return stock || null;
   }
 }
