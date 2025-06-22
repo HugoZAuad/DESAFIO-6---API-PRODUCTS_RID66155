@@ -1,6 +1,6 @@
-import { Router } from 'express'
 import CustomerControllers from '../controllers/CustomerControllers'
 import { createCustomerSchema, idParamsValidate, updateCustomerSchema } from '../schemas/CustomerSchemas'
+import { Router } from 'express'
 
 const customerRoutes = Router()
 const customerController = new CustomerControllers()

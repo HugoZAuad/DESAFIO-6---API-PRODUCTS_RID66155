@@ -1,9 +1,9 @@
-import { Request, Response } from "express"
 import ListCustomerService from "@modules/customers/services/ListCustomerService"
 import ShowCustomerService from "@modules/customers/services/ShowCustomerService"
 import CreateCustomerService from "@modules/customers/services/CreateCustomerService"
 import UpdateCustomerService from "@modules/customers/services/UpdateCustomerService"
 import DeleteCustomerService from "@modules/customers/services/DeleteCustomerService"
+import { Request, Response } from "express"
 import { container } from "tsyringe"
 
 export default class CustomerControllers {
