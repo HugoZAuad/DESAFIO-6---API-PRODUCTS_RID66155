@@ -1,7 +1,8 @@
-import { Order } from "@modules/orders/infra/database/entities/Orders";
-
 export interface ICreateSale {
-  order: Order;
+  order_id?: number;
+  order?: {
+    id: number;
+  };
   products: {
     stock_id: number;
     quantity: number;

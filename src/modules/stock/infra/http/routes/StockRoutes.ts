@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { StockController } from "../controllers/StockController";
 
-const stockRouter = Router();
+const stockRoutes = Router();
 const stockController = new StockController();
 
-stockRouter.post("/", stockController.create);
+stockRoutes.get("/", stockController.list);
 
-export { stockRouter };
+export default stockRoutes ;

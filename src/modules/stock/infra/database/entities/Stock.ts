@@ -18,6 +18,9 @@ export class Stock {
   @Column('int')
   quantity: number;
 
+  @Column()
+  product_name: string;
+
   @Column({
     type: "enum",
     enum: StockMovementType

@@ -24,6 +24,11 @@ export class CreateStock1750622618962 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: "product_name",
+            type: "varchar",
+            isNullable: false,
+          },
+          {
             name: "movement_type",
             type: "enum",
             enum: ["IN", "OUT"],

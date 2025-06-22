@@ -8,6 +8,8 @@ export default class ErrorHandleMiddleware {
     res: Response,
     _next: NextFunction
   ) {
+    console.error("Erro capturado pelo middleware:", error); 
+
     if(error instanceof AppError) {
       return res.status(error.statusCode).json({
         type: 'error',
