@@ -1,7 +1,7 @@
 import ListCustomerService from '@modules/customers/services/ListCustomerService';
 import { ICustomerRepositories } from '@modules/customers/domains/repositories/ICreateCustomerRepositories';
 import { container } from 'tsyringe';
-import 'reflect-metadata';
+import AppError from '@shared/errors/AppError';
 
 describe('ListCustomerService', () => {
   let listCustomerService: ListCustomerService;
@@ -35,6 +35,8 @@ describe('ListCustomerService', () => {
   it('deve lançar erro se nenhum cliente for encontrado', async () => {
     customersRepositoriesMock.findAndCount = jest.fn().mockResolvedValue([[], 0]);
 
-    await expect(listCustomerService.execute(1, 10)).rejects.toThrow('Cliente não encontrado');
+    await expect(listCustomerService.execute(1, 10)).rejects.toThrow(
+      new AppError('Cliente não encontrado', 404),
+    );
   });
 });

@@ -1,34 +1,50 @@
-import AppError from "@shared/errors/AppError"
-import { IPagination } from "@shared/interfaces/PaginationInterface"
-import { Customer } from "../infra/database/entities/Customers"
-import { ICustomerRepositories } from "@modules/customers/domains/repositories/ICreateCustomerRepositories"
-import { injectable, inject } from "tsyringe"
+import { inject, injectable } from 'tsyringe';
+import { ICustomerRepositories } from '@modules/customers/domains/repositories/ICreateCustomerRepositories';
+import AppError from '@shared/errors/AppError';
+
+interface Customer {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface IPagination {
+  current_Page: number;
+  data: Customer[];
+  next_page: number | null;
+  per_page: number;
+  prev_page: number | null;
+  total: number;
+  total_pages: number;
+}
 
 @injectable()
-export default class ListCustomerService {
-  constructor(@inject('customerRepositories') private readonly customerRepositories: ICustomerRepositories) { }
+class ListCustomerService {
+  constructor(
+    @inject('customerRepositories')
+    private customerRepositories: ICustomerRepositories,
+  ) {}
 
-  async execute(page: number = 1, limit: number = 10): Promise<IPagination<Customer>> {
+  public async execute(page: number, perPage: number): Promise<IPagination> {
+    const [customers, total] = await this.customerRepositories.findAndCount({
+      skip: (page - 1) * perPage,
+      take: perPage,
+    });
 
-    const [data, total] = await this.customerRepositories.findAndCount({
-      take: limit,
-      skip: (page - 1) * limit,
-    })
-
-    if (!Customer) {
-      throw new AppError("Cliente não encontrado", 404)
+    if (total === 0) {
+      throw new AppError('Cliente não encontrado', 404);
     }
 
-    const totalPages = Math.ceil(total / limit)
-
     return {
-      data,
-      total,
-      per_page: limit,
       current_Page: page,
-      total_pages: totalPages,
-      next_page: page < totalPages ? page + 1 : null,
+      data: customers as Customer[],
+      total,
+      per_page: perPage,
+      total_pages: Math.ceil(total / perPage),
+      next_page: page < Math.ceil(total / perPage) ? page + 1 : null,
       prev_page: page > 1 ? page - 1 : null,
-    } as IPagination<Customer>
+    };
   }
 }
+
+export default ListCustomerService;
