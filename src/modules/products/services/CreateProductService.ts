@@ -1,8 +1,8 @@
 import AppError from "@shared/errors/AppError";
 import { Product } from "@modules/products/infra/database/entities/Product";
-import { ICreateProduct } from "@modules/products/domains/interfaces/ICreateProduct"
-import { IProductRepositories } from "@modules/products/domains/repositories/ICreateProductRepositories"
-import { injectable, inject } from "tsyringe"
+import { ICreateProduct } from "@modules/products/domains/interfaces/ICreateProduct";
+import { IProductRepositories } from "@modules/products/domains/repositories/ICreateProductRepositories";
+import { injectable, inject } from "tsyringe";
 import { SyncStockWithProductService } from "@modules/stock/services/SyncStockWithProductService";
 
 @injectable()
@@ -11,7 +11,7 @@ export default class CreateProductService {
     @inject('productRepositories') private readonly productsRepositories: IProductRepositories,
     @inject('SyncStockWithProductService') private readonly syncStockWithProductService: SyncStockWithProductService
   ) {}
-  
+
   async execute({ name, price, quantity }: ICreateProduct): Promise<Product> {
     try {
       if (!name || price === undefined || quantity === undefined) {
@@ -36,6 +36,7 @@ export default class CreateProductService {
         name,
         price,
         quantity,
+        order_products: [], 
       });
 
       await this.syncStockWithProductService.execute(product);
@@ -43,7 +44,7 @@ export default class CreateProductService {
       return product;
     } catch (error) {
       console.error("Erro no CreateProductService:", error);
-      throw error;
+      throw error instanceof AppError ? error : new AppError("Erro ao criar produto", 500);
     }
   }
 }

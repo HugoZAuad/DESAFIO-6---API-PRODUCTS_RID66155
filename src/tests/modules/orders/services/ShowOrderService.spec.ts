@@ -15,7 +15,7 @@ describe('ShowOrderService', () => {
       save: jest.fn(),
     } as unknown as IOrderRepositories;
 
-    container.registerInstance('ordersRepositories', ordersRepositoriesMock);
+    container.registerInstance('orderRepositories', ordersRepositoriesMock);
 
     showOrderService = container.resolve(ShowOrderService);
   });

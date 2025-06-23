@@ -1,9 +1,9 @@
 import { ICustomerRepositories } from '@modules/customers/domains/repositories/ICreateCustomerRepositories'
-import customerRepositories from '@modules/customers/infra/database/repositories/CustomersRepositories'
+import { CustomerRepositories } from '@modules/customers/infra/database/repositories/CustomersRepositories'
 import { IOrderRepositories } from '@modules/orders/domains/repositories/ICreateOrderRepositories'
 import orderRepositories from '@modules/orders/infra/database/repositories/OrderRepositories'
 import { IProductRepositories } from '@modules/products/domains/repositories/ICreateProductRepositories'
-import productRepositories from '@modules/products/infra/database/repositories/ProductsRepositories'
+import { ProductRepositories } from '@modules/products/infra/database/repositories/ProductsRepositories'
 import { container } from 'tsyringe'
 import { DataSource } from 'typeorm'
 import { AppDataSource } from '@shared/infra/typeorm/data-source'
@@ -16,7 +16,7 @@ import { SyncStockWithProductService } from '@modules/stock/services/SyncStockWi
 container.registerInstance<DataSource>('dataSource', AppDataSource)
 
 container.registerSingleton<ICustomerRepositories>(
-  'customerRepositories', customerRepositories
+  'customerRepositories', CustomerRepositories
 )
 
 container.registerSingleton<IOrderRepositories>(
@@ -24,7 +24,7 @@ container.registerSingleton<IOrderRepositories>(
 )
 
 container.registerSingleton<IProductRepositories>(
-  'productRepositories', productRepositories
+  'productRepositories', ProductRepositories
 )
 
 container.registerSingleton<ISalesRepositories>(

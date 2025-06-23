@@ -26,7 +26,7 @@ describe('CreateCustomerService', () => {
 
   it('deve lançar erro se o email do cliente já estiver cadastrado', async () => {
     (customersRepositoriesMock.findByEmail as jest.Mock).mockResolvedValue({ id: 1 });
-    await expect(createCustomerService.execute({ name: 'Cliente A', email: 'cliente@example.com' })).rejects.toThrow('Cliente já cadastrado');
+    await expect(createCustomerService.execute({ name: 'Cliente A', email: 'cliente@example.com' })).rejects.toThrow('O endereço de e-mail já esta sendo usado');
   });
 
   it('deve criar um novo cliente com sucesso', async () => {

@@ -1,8 +1,8 @@
 import AppError from "@shared/errors/AppError";
 import { Product } from "@modules/products/infra/database/entities/Product";
-import { IUpdateProductService } from "@modules/products/domains/interfaces/IUpdateProductService"
-import { IProductRepositories } from "@modules/products/domains/repositories/ICreateProductRepositories"
-import { injectable, inject } from "tsyringe"
+import { IUpdateProductService } from "@modules/products/domains/interfaces/IUpdateProductService";
+import { IProductRepositories } from "@modules/products/domains/repositories/ICreateProductRepositories";
+import { injectable, inject } from "tsyringe";
 import { SyncStockWithProductService } from "@modules/stock/services/SyncStockWithProductService";
 
 @injectable()
@@ -10,7 +10,7 @@ export default class UpdateProductService {
   constructor(
     @inject('productRepositories') private readonly productsRepositories: IProductRepositories,
     @inject('SyncStockWithProductService') private readonly syncStockWithProductService: SyncStockWithProductService
-  ) { }
+  ) {}
 
   async execute({
     id,
@@ -26,7 +26,7 @@ export default class UpdateProductService {
 
     const productExists = await this.productsRepositories.findByName(name);
 
-    if (productExists) {
+    if (productExists && productExists.id !== id) {
       throw new AppError("Já existe um produto com esse nome", 409);
     }
 
